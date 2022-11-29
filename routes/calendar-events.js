@@ -2,19 +2,39 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const router = Router();
 
-const { fieldValidations } = require('../middlewares/fields-validations');
+const { fieldsValidations } = require('../middlewares/fields-validations');
 
-const { getAllCalendarEvents, createNewCalendarEvent, editCalendarEvent, deleteCalendarEvent } = require('../controllers/calendar-events.controller');
+const {
+    getAllCalendarEvents,
+    createNewCalendarEvent,
+    editCalendarEvent,
+    deleteCalendarEvent }
+    = require('../controllers/calendar-events.controller');
 
 const { validateJWT } = require('../middlewares/validate-JWT');
+const { isDate } = require('../helpers/isDate');
+router.use(validateJWT);
 
-router.get('/', validateJWT, getAllCalendarEvents);
 
-router.post('/new-event', validateJWT, createNewCalendarEvent);
+router.get('/', getAllCalendarEvents);
 
-router.put('/edit-event/:id', validateJWT, editCalendarEvent);
+router.post('/new-event', [
+    check('title', 'title is required').not().isEmpty(),
+    check('start', 'Start date is required').custom(isDate),
+    check('end', 'End date is required').custom( isDate ),
+    fieldsValidations,
+    validateJWT
+],createNewCalendarEvent);
 
-router.delete('/delete-event/:id', validateJWT, deleteCalendarEvent);
+router.put('/edit-event/:id', [
+    check('title', 'title is required').not().isEmpty(),
+    check('start', 'Start date is required').custom(isDate),
+    check('end', 'End date is required').custom( isDate ),
+    fieldsValidations,
+    validateJWT
+], editCalendarEvent);
+
+router.delete('/delete-event/:id', deleteCalendarEvent);
 
 
 
