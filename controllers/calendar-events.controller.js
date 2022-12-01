@@ -7,7 +7,7 @@ const getAllCalendarEvents = async (req, resp = response) => {
         .populate('user', 'name');
     resp.status(200).json({
         ok: true,
-        calendar_events: {events}
+        events
     })
     
 }
@@ -26,7 +26,7 @@ const createNewCalendarEvent = async (req, resp = response) => {
         return resp.status(200).json({
             ok: true,
             message:' Event has been created success',
-            calendar_event: {savedEvent}
+            savedEvent
         })
     } catch (error) {
         resp.status(500).json({

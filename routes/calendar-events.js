@@ -16,7 +16,7 @@ const { isDate } = require('../helpers/isDate');
 router.use(validateJWT);
 
 
-router.get('/', getAllCalendarEvents);
+router.get('/all-events', getAllCalendarEvents);
 
 router.post('/new-event', [
     check('title', 'title is required').not().isEmpty(),

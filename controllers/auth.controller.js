@@ -73,8 +73,9 @@ const loginWithEmailAndPassword = async (req, resp = response) => {
         const token = await generateJWT(user._id, user.name);
         resp.json({
             ok: true,
-            userCrendentials: {
+            user: {
                 user_id: user._id,
+                username: user.name,
                 email,
                 token
             }
@@ -100,7 +101,9 @@ const revalidateToken = async (req, resp = response) => {
             const token = await generateJWT(user_id, name); 
             return resp.status(200).json({
                 ok: true,
-                message:'This is your new token',
+                message: 'This is your new token',
+                user_id,
+                name,
                 token
             });
         }
