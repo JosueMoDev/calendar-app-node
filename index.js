@@ -22,7 +22,10 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/', require('./routes/calendar-events'));
 
-
+// ! this shortcut is just in case the build react app is inside of Public folder 
+// app.get('*', (req, resp) => { 
+//     resp.sendFile(__dirname + '/public/index.html');
+// })
 // * RUNNING PORT
 app.listen(process.env.PORT, () => { 
     console.log(` server running on port ${process.env.PORT}`)
